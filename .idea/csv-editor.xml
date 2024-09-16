@@ -10,6 +10,20 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="/app/Data/Tickers_Vietnam.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="/app/Data/new_tickers.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
       </map>
     </option>
   </component>

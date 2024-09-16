@@ -143,9 +143,15 @@ def ticker(request):
     ticker_list = []
     ticker_list = json.loads(json_ticker)
 
+    # ================================================= Load Vietnamese Ticker Table ================================
+    ticker_df = pd.read_csv('app/Data/Tickers_Vietnam.csv')
+    json_ticker = ticker_df.reset_index().to_json(orient ='records')
+    ticker_vietnam = []
+    ticker_vietnam = json.loads(json_ticker)
 
     return render(request, 'ticker.html', {
-        'ticker_list': ticker_list
+        'ticker_list': ticker_list,
+        'ticker_vietnam': ticker_vietnam,
     })
 
 
