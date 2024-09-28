@@ -179,7 +179,42 @@
             </div>
 
             <!-- End of Main Content -->
-
+            <div class="container-fluid pt-4 px-4">
+                <div class="bg-secondary text-center rounded p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <h6 class="mb-0">Detail Predicted Stock price of {{ticker_value}} for next {{number_of_days}} days</h6>
+                        <a  class="link-a" href="https://finance.yahoo.com/quote/{{ticker_value}}/chart?p={{ticker_value}}">Show All</a>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table text-start align-middle table-bordered table-hover mb-0">
+                            <thead>
+                            <tr class="text-white">
+                                <th scope="col">Market Cap (intraday)</th>
+                                <th scope="col">Beta (5Y Monthly)</th>
+                                <th scope="col">PE Ratio (TTM)</th>
+                                <th scope="col">EPS (TTM)</th>
+                                <th scope="col">Earnings Date</th>
+                                <th scope="col">Forward Dividend & Yield</th>
+                                <th scope="col">Ex-Dividend Date</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% if data_ticker_value %}
+                            <tr>
+                                <td>{{data_ticker_value.marketCap}}</td>
+                                <td>{{data_ticker_value.beta}}</td>
+                                <td>{{data_ticker_value.trailingPE}}</td>
+                                <td>{{data_ticker_value.epsTrailingTwelveMonths}}</td>
+                                <td>{{data_ticker_value.earningsTimestamp}}</td>
+                                <td>{{data_ticker_value.trailingAnnualDividendRate}}</td>
+                                <td>{{data_ticker_value.exDividendDate}}</td>
+                            </tr>
+                            {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
 
             <!-- Footer Start -->
             <div class="container-fluid pt-4 px-4">

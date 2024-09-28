@@ -2,6 +2,7 @@ from urllib import request
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import RequestContext
+import requests
 
 from plotly.offline import plot
 import plotly.graph_objects as go
@@ -234,6 +235,39 @@ def predict(request, ticker_value, number_of_days):
     forecast_prediction = clf.predict(X_forecast)
     forecast = forecast_prediction.tolist()
 
+    url = "https://apidojo-yahoo-finance-v1.p.rapidapi.com/market/v2/get-quotes"
+    querystring = {"region":"US","symbols": ticker_value}
+    headers = {
+    	"x-rapidapi-key": "e80d73ec3cmsh566b90c5f57038dp1e5fafjsn6b02bd456635",
+    	"x-rapidapi-host": "apidojo-yahoo-finance-v1.p.rapidapi.com"
+    }
+
+    response = requests.get(url, headers=headers, params=querystring)
+
+    data_ticker_value = []
+    # Kiểm tra phản hồi HTTP status code trước
+    if response.status_code == 200:
+        # Kiểm tra xem response có phải là JSON hợp lệ
+        try:
+            info_ticker = response.json()
+
+            # Kiểm tra cấu trúc JSON có đúng như mong đợi không
+            if 'quoteResponse' in info_ticker and 'result' in info_ticker['quoteResponse']:
+                results = info_ticker['quoteResponse']['result']
+
+                # Kiểm tra xem results có phần tử nào không
+                if results:
+                    data_ticker_value = results[-1]
+                    print(data_ticker_value)
+
+                else:
+                    print("No results found.")
+            else:
+                print("Invalid JSON structure: 'quoteResponse' or 'result' not found.")
+        except ValueError:
+            print("Response is not in JSON format.")
+    else:
+        print(f"API call failed with status code {response.status_code}")
 
     # ========================================== Plotting predicted data ======================================
 
@@ -290,4 +324,5 @@ def predict(request, ticker_value, number_of_days):
                                                     'Volume':Volume,
                                                     'Sector':Sector,
                                                     'Industry':Industry,
+                                                    'data_ticker_value': data_ticker_value
                                                     })
